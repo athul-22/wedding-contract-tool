@@ -236,3 +236,98 @@ POST /api/generate-contract
 
 **Fallback Strategy**: If OpenAI fails or no API key provided, generates comprehensive mock contracts with vendor-specific terms.
 
+## Key Assumptions Made
+
+### Technical Assumptions
+1. **Browser Storage Sufficient for MVP**: localStorage provides adequate data persistence for demonstration purposes and small-scale vendor operations
+2. **Single Vendor Per Session**: Each authenticated session represents one vendor business with isolated contract data
+3. **Modern Browser Support**: Target browsers with support for backdrop-filter, CSS Grid, and ES6+ features
+4. **Client-Side State Management**: React state and localStorage adequate for contract management without complex state management libraries
+5. **OpenAI API Availability**: Application designed with graceful fallback to comprehensive mock content when API is unavailable
+
+### Business Assumptions
+1. **Test Environment Focus**: Pre-configured test accounts eliminate user registration complexity for demonstration
+2. **Vendor-Specific Workflows**: Different contract types for photographers, caterers, and florists with tailored content generation
+3. **Digital-First Approach**: Modern vendors comfortable with web-based contract management and digital signatures
+4. **Contract Simplicity**: Standard wedding service contracts without complex multi-party agreements or legal review workflows
+
+### Security Assumptions
+1. **Development Security Model**: Simple credential authentication suitable for demo environment
+2. **Client-Side Data Storage**: Contract data stored locally acceptable for demonstration purposes
+3. **API Key Protection**: Environment variables provide sufficient security for development/demo deployment
+
+## What You'd Add If Given More Time
+
+### Backend & Infrastructure
+1. **Database Integration**
+   - PostgreSQL or MongoDB for persistent contract storage
+   - Database migrations and seeding scripts
+   - Backup and data recovery systems
+   - Multi-tenant architecture for vendor isolation
+
+2. **Advanced Authentication**
+   - OAuth providers (Google, Microsoft, Apple)
+   - Two-factor authentication (2FA)
+   - Role-based access control (admin, vendor, client)
+   - Password reset and email verification flows
+
+3. **API Enhancements**
+   - REST API with proper error handling and validation
+   - Rate limiting and API throttling
+   - Webhook support for third-party integrations
+   - API versioning and backward compatibility
+
+### Advanced Features
+1. **Contract Templates & Customization**
+   - Vendor-customizable contract templates
+   - Template versioning and approval workflows
+   - Legal clause library with regional variations
+   - Contract revision history and change tracking
+
+2. **Client Portal & Collaboration**
+   - Dedicated client login and contract review interface
+   - Real-time collaboration on contract terms
+   - Comment and approval workflows
+   - Email notifications and reminders
+
+3. **Payment & Financial Integration**
+   - Stripe/PayPal integration for deposit collection
+   - Invoice generation and automated billing
+   - Payment plans and installment tracking
+   - Financial reporting and tax integration
+
+4. **Document Management**
+   - PDF generation with custom branding
+   - DocuSign integration for legal signatures
+   - Contract export in multiple formats
+   - Automated contract archival and organization
+
+### Production & Scalability
+1. **Performance Optimization**
+   - Server-side rendering (SSR) for improved SEO
+   - CDN integration for global asset delivery
+   - Database query optimization and caching
+   - Microservices architecture for better scaling
+
+2. **Monitoring & Analytics**
+   - Application performance monitoring (APM)
+   - User behavior analytics and conversion tracking
+   - Error tracking and crash reporting
+   - Contract analytics and business intelligence
+
+3. **Security & Compliance**
+   - GDPR compliance and data privacy controls
+   - SOC 2 certification readiness
+   - Audit logging and compliance reporting
+   - End-to-end encryption for sensitive data
+
+4. **DevOps & Deployment**
+   - CI/CD pipelines with automated testing
+   - Blue-green deployment strategies
+   - Infrastructure as Code (Terraform/CloudFormation)
+   - Container orchestration with Kubernetes
+
+---
+
+Built for wedding vendors to streamline contract management and enhance client experience through modern web technologies.
+
