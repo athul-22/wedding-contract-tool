@@ -1,29 +1,71 @@
 # Wedding Contract Tool
 
-A professional contract management application for wedding vendors that allows them to quickly create contracts with AI assistance and collect digital signatures.
+A modern web application designed for wedding vendors to streamline contract creation, management, and digital signature collection. Built with Next.js and enhanced with AI-powered contract generation capabilities.
 
-## Features
+## Setup Instructions
 
-### ✨ Core Functionality
-- **Advanced Rich Text Editor**: Powered by Tiptap with professional formatting tools
-- **AI-Powered Contract Generation**: Generate professional HTML-formatted contract language tailored to your vendor type
-- **Rich Text Formatting**: Bold, italic, underline, lists, alignment, colors, and highlights
-- **Integrated AI Assist**: Built-in AI assistance directly within the editor toolbar
-- **Digital Signature Collection**: Accept signatures via drawing or typed name
-- **Contract Management**: Create, edit, and track contract status
-- **Multi-Vendor Support**: Supports photographers, caterers, and florists
-- **Real-time Data Persistence**: Contracts saved to browser localStorage
+### Prerequisites
+- Node.js 18.0 or higher
+- npm or yarn package manager
+- OpenAI API key (optional - application includes fallback functionality)
 
-### 🎨 Modern UI
-- **Glass Morphism Design**: Beautiful backdrop blur effects throughout
-- **Responsive Layout**: Works seamlessly on desktop and mobile
-- **Smooth Animations**: Powered by Framer Motion
-- **Professional Aesthetics**: Purple-blue gradient backgrounds with glossy elements
+### Installation
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/athul-22/wedding-contract-tool/
+   cd wedding-contract-tool
+   ```
 
-### 🔐 Authentication
-- Simple login system with pre-configured test accounts
-- Secure session management with NextAuth.js
-- Role-based access (photographer, caterer, florist)
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Create environment configuration:
+   ```bash
+   cp .env.example .env.local
+   ```
+   
+4. Configure environment variables in `.env.local`:
+   ```
+   OPENAI_API_KEY=your-openai-api-key-here
+   NEXTAUTH_URL=http://localhost:3000
+   NEXTAUTH_SECRET=your-nextauth-secret-key-here
+   ```
+
+5. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+6. Access the application at `http://localhost:3000`
+
+## Key Features
+
+1. **AI-Powered Contract Generation**
+   - Automated contract content creation using OpenAI GPT models
+   - Vendor-specific contract templates (photographer, caterer, florist)
+   - Intelligent content generation based on event details
+
+2. **Advanced Rich Text Editor**
+   - Professional document editing with Tiptap editor
+   - Comprehensive formatting tools including text styling, alignment, and lists
+   - Real-time content editing and preview
+
+3. **Digital Signature Collection**
+   - Canvas-based signature drawing functionality
+   - Typed signature option with custom fonts
+   - Secure signature storage and validation
+
+4. **Contract Management System**
+   - Create, edit, and track contract statuses
+   - Draft and signed contract workflows
+   - Persistent contract storage per vendor account
+
+5. **Multi-Vendor Authentication**
+   - Secure authentication system with NextAuth.js
+   - Role-based access control for different vendor types
+   - Session management and user account isolation
 
 ## Quick Start
 
@@ -35,7 +77,7 @@ A professional contract management application for wedding vendors that allows t
 
 1. **Clone and Setup**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/athul-22/wedding-contract-tool/
    cd wedding-contract-tool
    npm install
    ```
@@ -94,16 +136,51 @@ Use these accounts to explore the application:
   - **Type**: Enter full name in signature font
 - Sign to finalize contract
 
-## Technical Architecture
+## Libraries and Dependencies
 
-### Tech Stack
-- **Frontend**: Next.js 15, React 18, TypeScript
-- **Rich Text Editor**: Tiptap with StarterKit, TextStyle, Color, TextAlign extensions
-- **Styling**: Tailwind CSS, Framer Motion
-- **Authentication**: NextAuth.js v5
-- **AI Integration**: OpenAI GPT-3.5-turbo
-- **Signatures**: react-signature-canvas
-- **Icons**: Lucide React
+### Core Technologies
+- **Next.js 15.5.2** - React framework for production applications
+- **React 19.1.0** - JavaScript library for building user interfaces
+- **TypeScript 5** - Typed superset of JavaScript
+- **Tailwind CSS 3.4.17** - Utility-first CSS framework
+
+### Rich Text Editor
+- **@tiptap/react 3.4.2** - Headless rich text editor framework
+- **@tiptap/starter-kit 3.4.2** - Basic editor functionality bundle
+- **@tiptap/extension-text-style 3.4.2** - Text styling capabilities
+- **@tiptap/extension-color 3.4.2** - Text color formatting
+- **@tiptap/extension-text-align 3.4.2** - Text alignment controls
+- **@tiptap/extension-underline 3.4.2** - Underline text formatting
+- **@tiptap/extension-highlight 3.4.2** - Text highlighting
+- **@tiptap/extension-list-item 3.4.2** - List formatting
+- **@tiptap/extension-subscript 3.4.2** - Subscript text formatting
+- **@tiptap/extension-superscript 3.4.2** - Superscript text formatting
+
+### Authentication & Security
+- **next-auth 4.24.11** - Authentication library for Next.js
+- **bcryptjs 3.0.2** - Password hashing library
+- **jose 6.1.0** - JavaScript Object Signing and Encryption
+
+### UI and Animation
+- **framer-motion 12.23.12** - Motion library for React animations
+- **lucide-react 0.543.0** - Beautiful and consistent icon library
+- **@hugeicons/react 1.1.1** - Comprehensive icon set
+
+### AI Integration
+- **openai 5.20.0** - Official OpenAI API client for JavaScript
+
+### Digital Signatures
+- **react-signature-canvas 1.1.0-alpha.2** - React component for signature capture
+
+### Development Tools
+- **@types/node** - TypeScript definitions for Node.js
+- **@types/react** - TypeScript definitions for React
+- **@types/react-dom** - TypeScript definitions for React DOM
+- **@types/bcryptjs** - TypeScript definitions for bcryptjs
+- **eslint 9** - JavaScript and TypeScript linter
+- **eslint-config-next 15.5.2** - ESLint configuration for Next.js
+- **autoprefixer 10.4.21** - PostCSS plugin for vendor prefixes
+- **postcss 8.5.6** - CSS transformation tool
 
 ### Project Structure
 ```
@@ -159,67 +236,3 @@ POST /api/generate-contract
 
 **Fallback Strategy**: If OpenAI fails or no API key provided, generates comprehensive mock contracts with vendor-specific terms.
 
-## Key Assumptions Made
-
-1. **Browser Storage Sufficient**: localStorage adequate for MVP demo purposes
-2. **Single Vendor Per Session**: Each login represents one vendor business
-3. **Test Environment Focus**: Pre-seeded accounts eliminate signup complexity
-4. **Modern Browser Support**: Assumes backdrop-filter and CSS grid support
-5. **Client-Side Signatures**: Digital signatures stored as base64 strings
-
-## Future Enhancements
-
-If given more development time, I would add:
-
-### Backend & Database
-- **PostgreSQL Database**: Replace localStorage with proper persistence
-- **Contract Templates**: Vendor-customizable templates
-- **File Management**: PDF generation and export
-- **Email Integration**: Send contracts to clients
-
-### Advanced Features
-- **Client Portal**: Allow clients to view and sign contracts online
-- **Payment Integration**: Stripe/PayPal for deposit collection
-- **Calendar Sync**: Google Calendar integration for event dates
-- **Contract Analytics**: Track conversion rates and common terms
-
-### Security & Production
-- **Rate Limiting**: Protect against API abuse
-- **Audit Logging**: Track all contract changes
-- **Enhanced Authentication**: OAuth providers, 2FA
-- **Legal Compliance**: GDPR compliance, contract enforceability
-
-## Troubleshooting
-
-### Common Issues
-
-**AI Generation Not Working**
-- Verify `OPENAI_API_KEY` in `.env.local`
-- Check OpenAI account has sufficient credits
-- App will fallback to mock content gracefully
-
-**Signature Pad Issues**
-- Ensure modern browser with canvas support
-- Try refreshing if drawing doesn't respond
-- Use "Type Signature" alternative if drawing fails
-
-**Login Issues**
-- Use exact test credentials (case sensitive)
-- Clear browser storage if sessions conflict
-- Check browser console for authentication errors
-
-## Development
-
-### Available Scripts
-```bash
-npm run dev          # Start development server
-npm run build        # Build for production  
-npm run start        # Start production server
-npm run lint         # Run ESLint
-```
-
----
-
-**Built with ❤️ for wedding vendors everywhere**
-
-*Making beautiful contracts as memorable as the weddings themselves*
