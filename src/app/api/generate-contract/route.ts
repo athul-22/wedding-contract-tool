@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import OpenAI from 'openai'
 
-const openai = new OpenAI({
+const openai = process.env.OPENAI_API_KEY ? new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
-})
+}) : null
 
 export async function POST(request: NextRequest) {
   try {
@@ -11,6 +11,11 @@ export async function POST(request: NextRequest) {
 
     if (!vendorType || !clientName || !eventDate) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
+    }
+
+    // If OpenAI is not available, immediately use fallback
+    if (!openai) {
+      return generateFallbackResponse({ vendorType, clientName, eventDate, eventVenue, servicePackage, amount })
     }
 
     const prompt = `Generate a professional wedding service contract for a ${vendorType}. 
@@ -87,35 +92,41 @@ Format it as HTML with proper headings (h1, h2, h3), paragraphs, lists, and styl
     // Fallback to mock content with streaming simulation
     const { vendorType, clientName, eventDate, eventVenue, servicePackage, amount } = await request.json()
     
-    const mockContent = generateMockContract(vendorType, clientName, eventDate, eventVenue, servicePackage, amount)
-    
-    const encoder = new TextEncoder()
-    const readableStream = new ReadableStream({
-      async start(controller) {
-        // Simulate streaming by sending content in chunks
-        const chunks = mockContent.match(/.{1,100}/g) || [mockContent]
-        
-        for (const chunk of chunks) {
-          controller.enqueue(encoder.encode(`data: ${JSON.stringify({ content: chunk })}\n\n`))
-          // Small delay to simulate real streaming
-          await new Promise(resolve => setTimeout(resolve, 50))
-        }
-        
-        controller.enqueue(encoder.encode('data: [DONE]\n\n'))
-        controller.close()
-      }
-    })
-    
-    return new Response(readableStream, {
-      headers: {
-        'Content-Type': 'text/event-stream',
-        'Cache-Control': 'no-cache',
-        'Connection': 'keep-alive',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Content-Type',
-      }
-    })
+    return generateFallbackResponse({ vendorType, clientName, eventDate, eventVenue, servicePackage, amount })
   }
+}
+
+function generateFallbackResponse({ vendorType, clientName, eventDate, eventVenue, servicePackage, amount }: {
+  vendorType: string, clientName: string, eventDate: string, eventVenue: string, servicePackage: string, amount: string
+}) {
+  const mockContent = generateMockContract(vendorType, clientName, eventDate, eventVenue, servicePackage, amount)
+  
+  const encoder = new TextEncoder()
+  const readableStream = new ReadableStream({
+    async start(controller) {
+      // Simulate streaming by sending content in chunks
+      const chunks = mockContent.match(/.{1,100}/g) || [mockContent]
+      
+      for (const chunk of chunks) {
+        controller.enqueue(encoder.encode(`data: ${JSON.stringify({ content: chunk })}\n\n`))
+        // Small delay to simulate real streaming
+        await new Promise(resolve => setTimeout(resolve, 50))
+      }
+      
+      controller.enqueue(encoder.encode('data: [DONE]\n\n'))
+      controller.close()
+    }
+  })
+  
+  return new Response(readableStream, {
+    headers: {
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache',
+      'Connection': 'keep-alive',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    }
+  })
 }
 
 function generateMockContract(vendorType: string, clientName: string, eventDate: string, eventVenue: string, servicePackage: string, amount: string) {
