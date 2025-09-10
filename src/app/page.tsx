@@ -20,6 +20,7 @@ export default function HomePage() {
   const [signaturePadRef, setSignaturePadRef] = useState<any>(null)
   const [signatureMode, setSignatureMode] = useState<'draw' | 'type'>('draw')
   const [typedSignature, setTypedSignature] = useState('')
+  const [hasDrawnSignature, setHasDrawnSignature] = useState(false)
   const [isGenerating, setIsGenerating] = useState(false)
   const [generationProgress, setGenerationProgress] = useState('')
 
@@ -249,6 +250,7 @@ Date: _______________`
     saveContracts(updatedContracts)
     setSigningContract(null)
     setTypedSignature('')
+    setHasDrawnSignature(false)
   }
 
   if (status === 'loading') {
@@ -382,7 +384,12 @@ Date: _______________`
                       <motion.button
                         whileHover={{ scale: 1.05, backgroundColor: 'rgba(34, 197, 94, 0.1)' }}
                         whileTap={{ scale: 0.95 }}
-                        onClick={() => setSigningContract(contract)}
+                        onClick={() => {
+                          setSigningContract(contract)
+                          setHasDrawnSignature(false)
+                          setTypedSignature('')
+                          setSignatureMode('draw')
+                        }}
                         className="p-3 bg-green-50 text-green-600 rounded-2xl hover:bg-green-100 transition-all duration-200"
                         title="Sign Contract"
                       >
@@ -758,7 +765,13 @@ Date: _______________`
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 bg-neutral-900/30 backdrop-blur-sm flex items-center justify-center p-4 z-50"
-            onClick={(e) => e.target === e.currentTarget && setSigningContract(null)}
+            onClick={(e) => {
+              if (e.target === e.currentTarget) {
+                setSigningContract(null)
+                setTypedSignature('')
+                setHasDrawnSignature(false)
+              }
+            }}
           >
             <motion.div
               initial={{ scale: 0.95, opacity: 0, y: 20 }}
@@ -774,7 +787,11 @@ Date: _______________`
                 <motion.button
                   whileHover={{ scale: 1.1, backgroundColor: 'rgba(248, 118, 89, 0.1)' }}
                   whileTap={{ scale: 0.9 }}
-                  onClick={() => setSigningContract(null)}
+                  onClick={() => {
+                    setSigningContract(null)
+                    setTypedSignature('')
+                    setHasDrawnSignature(false)
+                  }}
                   className="p-3 text-neutral-400 hover:text-primary-600 transition-colors rounded-2xl"
                 >
                   <X size={24} />
@@ -793,7 +810,11 @@ Date: _______________`
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    onClick={() => setSignatureMode('draw')}
+                    onClick={() => {
+                      setSignatureMode('draw')
+                      setHasDrawnSignature(false)
+                      setTypedSignature('')
+                    }}
                     className={`px-6 py-3 rounded-2xl font-semibold transition-all duration-200 ${
                       signatureMode === 'draw' 
                         ? 'bg-primary-500 text-white shadow-glow' 
@@ -805,7 +826,11 @@ Date: _______________`
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    onClick={() => setSignatureMode('type')}
+                    onClick={() => {
+                      setSignatureMode('type')
+                      setHasDrawnSignature(false)
+                      setTypedSignature('')
+                    }}
                     className={`px-6 py-3 rounded-2xl font-semibold transition-all duration-200 ${
                       signatureMode === 'type' 
                         ? 'bg-primary-500 text-white shadow-glow' 
@@ -825,11 +850,15 @@ Date: _______________`
                         height: 200,
                         className: 'signature-canvas w-full h-48'
                       }}
+                      onBegin={() => setHasDrawnSignature(true)}
                     />
                     <motion.button
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      onClick={() => signaturePadRef?.clear()}
+                      onClick={() => {
+                        signaturePadRef?.clear()
+                        setHasDrawnSignature(false)
+                      }}
                       className="mt-4 text-neutral-600 text-sm hover:text-primary-600 transition-colors font-medium"
                     >
                       Clear Signature
@@ -854,7 +883,7 @@ Date: _______________`
                   whileHover={{ scale: 1.02, boxShadow: '0 8px 30px rgba(34, 197, 94, 0.3)' }}
                   whileTap={{ scale: 0.98 }}
                   onClick={signContract}
-                  disabled={signatureMode === 'draw' ? (signaturePadRef?.isEmpty?.() !== false) : !typedSignature.trim()}
+                  disabled={signatureMode === 'draw' ? !hasDrawnSignature : !typedSignature.trim()}
                   className="flex items-center gap-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white px-8 py-4 rounded-2xl font-semibold hover:from-green-600 hover:to-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-medium"
                 >
                   <Check size={20} />
@@ -863,7 +892,11 @@ Date: _______________`
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  onClick={() => setSigningContract(null)}
+                  onClick={() => {
+                    setSigningContract(null)
+                    setTypedSignature('')
+                    setHasDrawnSignature(false)
+                  }}
                   className="px-8 py-4 bg-white/60 text-neutral-700 rounded-2xl border border-neutral-200 hover:bg-white/80 hover:text-neutral-800 transition-all duration-200 font-semibold"
                 >
                   Cancel
