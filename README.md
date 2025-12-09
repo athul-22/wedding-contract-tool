@@ -1,7 +1,7 @@
 # Wedding Contract Tool
 
 A modern web application designed for wedding vendors to streamline contract creation, management, and digital signature collection. Built with Next.js and enhanced with AI-powered contract generation capabilities.
-
+ 
 ## Setup Instructions 
 
 ### Prerequisites 
