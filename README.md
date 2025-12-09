@@ -2,7 +2,7 @@
 
 A modern web application designed for wedding vendors to streamline contract creation, management, and digital signature collection. Built with Next.js and enhanced with AI-powered contract generation capabilities.
  
-## Setup Instructions 
+## Setup Instructions  
 
 ### Prerequisites 
 - Node.js 18.0 or higher
