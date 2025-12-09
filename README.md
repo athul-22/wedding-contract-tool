@@ -4,7 +4,7 @@ A modern web application designed for wedding vendors to streamline contract cre
 
 ## Setup Instructions
 
-### Prerequisites
+### Prerequisites 
 - Node.js 18.0 or higher
 - npm or yarn package manager
 - OpenAI API key (optional - application includes fallback functionality)
